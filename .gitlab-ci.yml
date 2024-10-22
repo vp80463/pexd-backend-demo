@@ -1,0 +1,163 @@
+# -------------------------------------------------------------
+# Job/Trigger              : tag
+# -------------------------------------------------------------
+# Secret variables(env)
+#
+# SONAR_HOST_URL: The url of sonarqube server
+
+include:
+  - project: 'ic/ci-templates'
+    ref: v1.0
+    file: 'base-jdk17.yml' 
+
+variables:
+  CI_DEBUG_TRACE: $CI_DEBUG_TRACE
+  APP_PJ_PREFIX: "a1stream"
+
+cache:
+  key: "${CI_PROJECT_PATH_SLUG}"
+  paths:
+    - .gradle_repo
+    - .gradle
+
+
+### Feature base templates  
+.gradle-build-env:
+  extends:
+    - .jdk-env
+  before_script:
+    - export BUILD_VERSION=$(git describe --always --dirty --tags  | sed 's/^[a-zA-Z]*//')
+    - echo $BUILD_VERSION
+    - export ARTIFACT_ID=${CI_PROJECT_NAME,,}
+    - test ! -d ".gradle_repo" && mkdir .gradle_repo
+    - export GRADLE_USER_HOME=$PWD/.gradle_repo
+    - export GRADLE_OPTS=""
+    - |
+      export GRADLE_OPTS="$GRADLE_OPTS -DBUILD_VERSION=$BUILD_VERSION \
+              -DNEXUS_PULL_REPO_FLAG=$ARCHITECTURE_NEXUS_REGION"
+    - | # Replace the gradle wrapper download url of offial nexus with local
+      sed -i -e '/distributionUrl/d' \
+           -e '1a distributionUrl=http\\://10.191.5.149:8080/nexus/service/local/repositories/cdn-architecture/content/tools/gradle/gradle-8.5-bin.zip' \
+              ./gradle/wrapper/gradle-wrapper.properties
+    - | # Append local nexus url
+      sed -i -e '/mavenLocal()/i maven { \n url = "http://10.191.5.149:8080/nexus/content/groups/g3-group-external/" \n allowInsecureProtocol = true }' \
+           settings.gradle
+    - chmod +x ./gradlew
+    - ./gradlew -v
+
+
+## ============
+### Schedule jobs
+build:
+  extends:
+    - .shared-runner
+    - .schedule-job
+    - .gradle-build-env
+    - .ci-build_cache
+  stage: build
+  script:
+    - ./gradlew clean build --parallel --build-cache
+  artifacts:
+    paths:
+      - build/
+      - "**/build/"
+    expire_in: 1 hrs
+ 
+
+sonarQube:
+  extends:
+    - .shared-runner
+    - .schedule-job
+    - .gradle-build-env
+    - .ci-build_cache
+  stage: test
+  variables:
+    SONAR_SOURCE_ENCODING: "UTF-8"
+    SONAR_SOURCE: "src/main"
+    SONAR_EXCLUSIONS: "**/src/test/**,**/*.xml"
+  script:
+    - export
+    - |
+      ./gradlew sonar  \
+      -Dsonar.host.url=$SONAR_HOST_URL \
+      -Dsonar.login=$SONAR_LOGIN_TOKEN \
+      -D"sonar.sources=$SONAR_SOURCE" \
+      -Dsonar.sourceCompatibility=17 \
+      -Dsonar.targetCompatibility=17 \
+      -Dsonar.verbose=true \
+      -Dsonar.sourceEncoding=$SONAR_SOURCE_ENCODING \
+      -D"sonar.exclusions=$SONAR_EXCLUSIONS" \
+      -D"sonar.projectKey=$SONAR_PJ_KEY" \
+      -Dsonar.projectVersion=$BUILD_VERSION \
+      -D"sonar.projectName=$SONAR_PJ_NAME" \
+      -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA \
+      -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME \
+      -Dsonar.gitlab.project_id=$CI_PROJECT_ID \
+      -D"sonar.gitlab.max_blocker_issues_gate=0" \
+      -D"sonar.gitlab.max_critical_issues_gate=10"
+  allow_failure: true
+  environment:
+    name: SonarQube
+    url: ${SONAR_HOST}/dashboard?id=$SONAR_PJ_KEY
+  needs: [ build ]
+
+test: # test would be executed in sonarqube job
+  extends:
+    - .shared-runner
+    - .schedule-job
+    - .gradle-build-env
+  stage: test
+  script:
+    - ./gradlew clean test
+    - rm -rf test-results
+    - mkdir _test-results
+    - |
+      for proj in $APP_PJ_PREFIX-*; do \
+          test_results_dir="$PJ_NAME/build/test-results/test"; \
+          [ -d "$test_results_dir" ] && mv  "$test_results_dir"/*.xml  "_test-results/"; \
+      done
+    - mv _test-results test-results
+  artifacts:
+    reports:
+      junit: test-results/TEST-*.xml
+    expire_in: 1 hr
+
+pages:
+  extends:
+    - .shared-runner
+    - .schedule-job
+    - .gradle-build-env
+  stage: report
+  script:
+    - ./gradlew test
+    - ./gradlew htmlDependencyReport
+    - ./gradlew javadoc
+    - rm -rf public
+    - mkdir _public
+    - mkdir _public/test_reports/
+    - mkdir _public/dep_reports/
+    - mkdir _public/javadoc/
+    - |
+      for proj in $APP_PJ_PREFIX-*; do \
+        test_reports_dir="$proj/build/reports/tests/"; \
+        dep_reports_dir="$proj/build/reports/project/dependencies/"; \
+        javadoc_dir="$proj/build/docs/javadoc/"; \
+        [ -d "$test_reports_dir" ] && mv "$test_reports_dir" "_public/test_reports/$proj/"; \
+        [ -d "$dep_reports_dir" ] && mv "$dep_reports_dir" "_public/dep_reports/$proj/"; \
+        [ -d "$javadoc_dir" ] && mv "$javadoc_dir" "_public/javadoc/$proj/"; \
+      done
+    - cd _public/
+    - unset http_proxy
+    - unset https_proxy
+    - yum install -y tree
+    - tree -C -H "." -P "index.html" --prune --noreport -o index.html
+    - cd ../
+    - mv _public public
+  environment:
+    name: report
+    url: $CI_PAGES_URL
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 hrs
+

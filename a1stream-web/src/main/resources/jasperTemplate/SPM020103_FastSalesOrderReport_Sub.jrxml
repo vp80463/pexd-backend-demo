@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="accPickOut_Sub" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="5" whenResourceMissingType="Error" uuid="d53fd8e0-5dfb-4af7-afda-b00a767fb93c">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="parts" class="java.lang.String"/>
+	<field name="partsNo" class="java.lang.String"/>
+	<field name="partsName" class="java.lang.String"/>
+	<field name="discountAmount" class="java.math.BigDecimal"/>
+	<field name="cancelReason" class="java.lang.String"/>
+	<field name="originalQty" class="java.math.BigDecimal"/>
+	<field name="sellingPrice" class="java.math.BigDecimal"/>
+	<field name="standardPrice" class="java.math.BigDecimal"/>
+	<field name="allocatedQty" class="java.math.BigDecimal"/>
+	<field name="boQty" class="java.math.BigDecimal"/>
+	<field name="cancelQty" class="java.math.BigDecimal"/>
+	<field name="amount" class="java.math.BigDecimal"/>
+	<variable name="sumOrderQty" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{originalQty}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="sumAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="sumCancelQty" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{cancelQty}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="sumBoQty" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{boQty}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="sumAllocatedQty" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{allocatedQty}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="749" y="14" width="53" height="16" uuid="af83f217-cc61-4b1e-9b76-cffe0210e0c3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Lý do hủy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="14" width="50" height="16" uuid="f856fcfa-d0f6-4003-b927-d99d6ff2486f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Số lượng đặt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="14" width="180" height="16" uuid="39f3c508-1524-4168-8010-a637d679c41b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<text><![CDATA[Phụ tùng đặt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="15" width="45" height="15" uuid="d752d784-e5c8-4a52-ae92-bc4604223439">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Giảm giá]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="14" width="30" height="16" uuid="ce10b9fd-f21d-4351-a1ea-a42073e75023">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Giá]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="14" width="20" height="16" uuid="98558af1-1b7a-4df2-a57d-d06cd7654611">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Số]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="14" width="90" height="16" uuid="b1b4e122-a10c-4cc9-904b-87c8b6104672">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Phụ tùng]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="515" y="15" width="65" height="15" uuid="fce46d42-00ba-4afc-867a-34d258d93679">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Thành tiền]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="410" y="1" width="50" height="29" uuid="8a6cce0c-7e0f-48fe-b613-b7dd0eeda433">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Giá bán lẻ quy định]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="585" y="1" width="50" height="29" uuid="0ec2ea30-72c9-408b-88de-d2a831f89e09">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Số lượng phân bổ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="640" y="1" width="50" height="29" uuid="a67cb6c6-1b0b-47a1-b08e-f259db58f4d1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Số lượng hàng nợ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="695" y="1" width="50" height="29" uuid="514d11db-55e3-4b31-9cad-1a5c3081a6b8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Số lượng hủy]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<line>
+				<reportElement x="-10" y="0" width="820" height="1" uuid="6e605086-932b-4bbc-8dfb-388449ab0dd1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement x="749" y="6" width="53" height="15" uuid="43d7e89d-f64f-4122-a19d-6164c19b8ba5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="pjFont" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cancelReason}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="515" y="6" width="65" height="15" uuid="1ff61334-ef3d-491f-8e58-fdc462858f04">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="410" y="6" width="50" height="15" uuid="fd61ebb4-aaa7-4faa-96ba-c8b8923e0005">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{standardPrice}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="375" y="6" width="30" height="15" uuid="2cfec2ff-aabf-4be3-a0b7-af342752e22b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sellingPrice}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="320" y="6" width="50" height="15" uuid="dc0ac5ad-a2ed-40aa-8bd8-f88ed963df14">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{originalQty}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="0" y="6" width="20" height="15" uuid="160f22de-9b8d-441f-acf3-9c6d14173f27">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="465" y="6" width="45" height="15" uuid="b6e28b8f-0904-4101-857d-8079480b6e85">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{discountAmount}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="640" y="6" width="50" height="15" uuid="4e18a16d-45ca-4db8-8215-a3a2aece8642">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{boQty}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="585" y="6" width="52" height="15" uuid="7d2f0a86-9fe4-4174-bc8f-956a57d3c16c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{allocatedQty}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="695" y="6" width="49" height="15" uuid="12f9e9e8-996c-4233-97b2-27cbdbe03e11">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="pjFont" size="10"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cancelQty}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement x="130" y="6" width="83" height="15" uuid="45a40fd7-779c-4026-9851-20494294b4d8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partsNo}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement x="30" y="6" width="90" height="15" uuid="acd1e513-9f94-4c0e-996b-96c02e461a5c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parts}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement x="213" y="6" width="97" height="15" uuid="d4c0e324-cfc0-4859-ab7c-3e9b6e8fc1b5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partsName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="94">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="291" y="0" width="29" height="20" uuid="1bd45243-435e-4f74-b7f1-1721aeb35026">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="pjFont" size="9"/>
+				</textElement>
+				<text><![CDATA[Tổng :  ]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="282" y="0" width="528" height="1" uuid="25efc4fd-f4af-450d-acdd-20543a858ed3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField textAdjust="StretchHeight" pattern="#,##0.##" isBlankWhenNull="true">
+				<reportElement x="320" y="0" width="50" height="20" uuid="2ff3f869-cc46-4145-80dc-511c0a626c1f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumOrderQty}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="695" y="0" width="49" height="20" uuid="9994e2cc-a418-430b-83ac-c829fb7230ef">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumCancelQty}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="640" y="0" width="50" height="20" uuid="f0117edf-bd8e-4f3f-9621-dbaabf8ca205">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumBoQty}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="515" y="0" width="65" height="20" uuid="88699e34-19af-4070-a10e-d56f146d163c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumAmount}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="585" y="0" width="52" height="20" uuid="071fd8dc-f6a3-4e1d-9b93-46a46f8caf13">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="pjFont" size="9"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumAllocatedQty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

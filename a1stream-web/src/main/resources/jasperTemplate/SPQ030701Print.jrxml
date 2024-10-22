@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2024-07-29T09:21:57 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DispatchOrder_main" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="814" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="d168d68e-e275-4632-9289-6b59c75da4e9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="TRANSPORT_TEMPLATE" class="net.sf.jasperreports.engine.JasperReport">
+		<defaultValueExpression><![CDATA[$P{TRANSPORT_TEMPLATE}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="OTHER_TRANSPORT_TEMPLATE" class="net.sf.jasperreports.engine.JasperReport">
+		<defaultValueExpression><![CDATA[$P{OTHER_TRANSPORT_TEMPLATE}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="date" class="java.lang.String"/>
+	<field name="pointAbbr" class="java.lang.String"/>
+	<field name="detailPrintList" class="java.util.Collection"/>
+	<group name="Group1" isStartNewColumn="true" isStartNewPage="true" isResetPageNumber="true" isReprintHeaderOnEachPage="true" footerPosition="StackAtBottom">
+		<groupHeader>
+			<band height="46">
+				<staticText>
+					<reportElement key="staticText-177" x="152" y="0" width="434" height="23" uuid="d0da6f93-1ab7-41ab-a0f4-c2f330d4dc99">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="pjFont" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Danh sách kiểm kê mã hàng chênh lệch]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="690" y="23" width="40" height="23" uuid="62a2f059-93e1-47ca-a048-c4300060a0a9">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box topPadding="3" leftPadding="0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="9"/>
+					</textElement>
+					<text><![CDATA[Trang :]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="730" y="1" width="84" height="20" uuid="e9c33727-669c-498c-ab3c-95daf9ea6694">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="3" bottomPadding="2" rightPadding="0">
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="pjFont" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="690" y="0" width="40" height="23" uuid="36b19296-3b56-4d79-be56-604ada750a6e">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box topPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="9"/>
+					</textElement>
+					<text><![CDATA[Ngày :]]></text>
+				</staticText>
+				<textField evaluationTime="Page" isBlankWhenNull="true">
+					<reportElement x="730" y="21" width="20" height="23" uuid="5e13abb9-1228-4873-a29d-8effef6f948b">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box bottomPadding="3"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="pjFont" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText-174" x="750" y="21" width="10" height="23" uuid="ebfb6762-f95b-491b-94c9-68aa9948ecb9">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box leftPadding="0" bottomPadding="3"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="pjFont" size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="Group1" isBlankWhenNull="true">
+					<reportElement x="760" y="21" width="20" height="23" uuid="a6682611-cf56-47d8-b0b3-b071250c21ad">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box bottomPadding="3"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="pjFont" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group2">
+		<groupHeader>
+			<band height="23">
+				<staticText>
+					<reportElement x="4" y="0" width="50" height="23" uuid="93031187-262e-40d2-aa7d-68661d5d8a8e">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box topPadding="0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="9"/>
+					</textElement>
+					<text><![CDATA[Cửa hàng :]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="54" y="0" width="244" height="23" uuid="1c4b2bce-0594-49c5-8c25-78cb6a6f56fb">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box topPadding="0"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="pjFont" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pointAbbr}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="105">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="0" width="814" height="105" uuid="9d903b86-822f-40ac-8426-158992c3e529">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detailPrintList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["jasperTemplate/SPQ030701Print_Sub.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

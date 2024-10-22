@@ -1,0 +1,17 @@
+services:
+  web:
+    image: a1stream-web:latest
+    container_name: a1stream-web
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_PROFILES_ACTIVE=production
+      - DB_URL=jdbc:postgresql://a1stream-db-dev-cluster-instance-1.cq9chja3b8am.ap-southeast-1.rds.amazonaws.com:5432/postgres
+      - DB_USERNAME=a1stream_dms_dev
+      - DB_PASSWORD=a1stream-dms-2024*
+      - DB_SCHEMA=a1stream
+      - REDIS_HOST=clustercfg.redis-cluster-for-ymvn-dms-dev.mdfclg.apse1.cache.amazonaws.com
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=ymvn*-dms-test-2024#

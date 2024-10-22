@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2024-05-24T08:51:35 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DispatchOrder_main" pageWidth="683" pageHeight="396" columnWidth="643" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d168d68e-e275-4632-9289-6b59c75da4e9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="TRANSPORT_TEMPLATE" class="net.sf.jasperreports.engine.JasperReport">
+		<defaultValueExpression><![CDATA[$P{TRANSPORT_TEMPLATE}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="OTHER_TRANSPORT_TEMPLATE" class="net.sf.jasperreports.engine.JasperReport">
+		<defaultValueExpression><![CDATA[$P{OTHER_TRANSPORT_TEMPLATE}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="date" class="java.lang.String"/>
+	<field name="dealerDescription" class="java.lang.String"/>
+	<field name="deliveryNo" class="java.lang.String"/>
+	<field name="toAddress" class="java.lang.String"/>
+	<field name="detailTestList" class="java.util.Collection"/>
+	<field name="logo" class="java.lang.String"/>
+	<field name="qrCode" class="java.lang.String"/>
+	<field name="barCode" class="java.lang.String"/>
+	<group name="Group1" isStartNewColumn="true" isStartNewPage="true" isResetPageNumber="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{deliveryNo}]]></groupExpression>
+		<groupHeader>
+			<band height="101">
+				<textField>
+					<reportElement x="60" y="80" width="492" height="15" uuid="9c9d129c-e371-403e-bd1f-a01043984f2f">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{toAddress}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="80" width="60" height="15" uuid="67fbc2d4-a5fe-4b57-ab35-247e337dffe6">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<text><![CDATA[Address:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="59" width="60" height="15" uuid="4c199fd1-3b0b-4902-b147-bdcb3ba3a654">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box topPadding="0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<text><![CDATA[Customer:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="60" y="59" width="250" height="15" uuid="b64630e6-5f35-4efc-9ad1-31fd414a0c8d">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box topPadding="0"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dealerDescription}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="335" y="59" width="60" height="15" uuid="1a39f0f1-c3ad-4048-8f19-97ec3d181e1d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<text><![CDATA[OrderNo:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="395" y="59" width="157" height="15" uuid="7c9107ed-f895-4404-8a04-7caa8a9376aa"/>
+					<box leftPadding="3"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{deliveryNo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="414" y="30" width="40" height="20" uuid="cd07dbce-6cca-469d-9996-f26e6f5d18f4">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box topPadding="3" leftPadding="0"/>
+					<textElement textAlignment="Right">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<text><![CDATA[Page:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="454" y="10" width="116" height="20" uuid="dacb8934-c043-4e3f-be05-28400b96662d">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="3" bottomPadding="2" rightPadding="0">
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="414" y="10" width="40" height="20" uuid="4062877b-b6e1-4eb3-bd83-7b24fe6602a9">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box topPadding="3"/>
+					<textElement textAlignment="Right">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<text><![CDATA[Date:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-177" x="130" y="1" width="280" height="30" uuid="d0da6f93-1ab7-41ab-a0f4-c2f330d4dc99"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="pjFont" size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Picking List]]></text>
+				</staticText>
+				<textField evaluationTime="Page" isBlankWhenNull="true">
+					<reportElement x="454" y="30" width="20" height="20" uuid="20f9caa2-fd69-4916-8a1b-72136945ca79">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box bottomPadding="3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText-174" x="474" y="30" width="10" height="20" uuid="c7005794-72f7-400f-a992-a504d85375c9">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box leftPadding="0" bottomPadding="3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="pjFont" size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="Group1" isBlankWhenNull="true">
+					<reportElement x="484" y="30" width="20" height="20" uuid="3d04b48a-0a2a-4d84-898f-f49c1e12c972">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box bottomPadding="3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="pjFont" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="-14" y="-15" width="138" height="50" uuid="52bda563-06be-4a4d-8360-5506bee5318d"/>
+					<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<staticText>
+					<reportElement x="340" y="8" width="130" height="14" uuid="8c92a2be-15dc-4734-bb5b-9f34f7ffba9f"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="11"/>
+					</textElement>
+					<text><![CDATA[Picker (signature):]]></text>
+				</staticText>
+				<line>
+					<reportElement x="475" y="20" width="80" height="1" uuid="5551bdaa-3334-4ca2-9b31-8e5267053d50">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="340" y="31" width="130" height="14" uuid="3aa7a4e1-9702-4973-87d1-4396e24dacf8">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="pjFont" size="11"/>
+					</textElement>
+					<text><![CDATA[Supervisor (signature):]]></text>
+				</staticText>
+				<line>
+					<reportElement x="475" y="43" width="80" height="1" uuid="9e7518aa-9cfb-46da-97d9-9466bb51afe0">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</graphicElement>
+				</line>
+				<componentElement>
+					<reportElement x="100" y="5" width="100" height="44" uuid="ee2c1c37-d164-445d-8c7f-0a6f078b280e"/>
+					<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<jr:codeExpression><![CDATA[$F{qrCode}]]></jr:codeExpression>
+					</jr:QRCode>
+				</componentElement>
+				<componentElement>
+					<reportElement x="1" y="5" width="100" height="43" uuid="45ecaf6c-b4ec-4a8a-af02-1b24323600bc"/>
+					<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<jr:codeExpression><![CDATA[$F{barCode}]]></jr:codeExpression>
+					</jr:Code128>
+				</componentElement>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="105">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="-20" y="0" width="595" height="105" uuid="9d903b86-822f-40ac-8426-158992c3e529">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detailTestList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["jasperTemplate/jasperTest_Sub2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

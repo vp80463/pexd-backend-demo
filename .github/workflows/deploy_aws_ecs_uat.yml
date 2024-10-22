@@ -1,0 +1,82 @@
+name: Deploy to UAT AWS
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: 
+      name: a1stream-ymvn-uat-env
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Access to AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_NAME_UAT }}
+          aws-region: ${{ secrets.AWS_REGION_UAT }}
+
+      - name: Export AWS_ACCOUNT_ID to environment variable
+        shell: bash
+        run: echo "AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)" >> $GITHUB_ENV
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: 17
+          cache: 'gradle'
+
+      - name: Build with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build -x test
+
+      - name: Build, tag and Push image to AWS ECR
+        id: build-image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          ECR_REPOSITORY_UAT: ${{ secrets.ECR_REPOSITORY_UAT }}
+        run: |
+          docker build -t $ECR_REPOSITORY_UAT:$IMAGE_TAG .
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          docker push $ECR_REPOSITORY_UAT:$IMAGE_TAG
+          echo "image=$ECR_REPOSITORY_UAT:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Download task definition
+        env:
+          TASK_DEFINITION_NAME_UAT: ${{ secrets.TASK_DEFINITION_NAME_UAT }}
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition $TASK_DEFINITION_NAME_UAT \
+            --query taskDefinition > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        env:
+          CONTAINER_NAME_UAT: ${{ secrets.CONTAINER_NAME_UAT }}
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.CONTAINER_NAME_UAT }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        env:
+          ECS_SERVICE_UAT: ${{ secrets.ECS_SERVICE_UAT }}
+          ECS_CLUSTER_UAT: ${{ secrets.ECS_CLUSTER_UAT }}
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE_UAT }}
+          cluster: ${{ env.ECS_CLUSTER_UAT }}
+          wait-for-service-stability: true

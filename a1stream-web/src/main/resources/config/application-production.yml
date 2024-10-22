@@ -1,0 +1,110 @@
+--- # server environment
+spring.config.activate.on-profile: production
+
+logging:
+    config: classpath:logback-file.xml
+
+solid.swagger.enable: false
+springdoc.api-docs.enabled: false
+
+management:
+  endpoints:
+    web:
+      base-path: /monitor
+      exposure:
+        include:
+          - "health"
+          - "info"
+          - "metrics"
+          - "prometheus"
+    enabled-by-default: true
+  server:
+    add-application-context-header: false
+    port: ${PROMETHEUS_PORT}
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+spring:
+  datasource:
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 50 # max pool size
+      connection-timeout: 30000 # wait for connection for most 30 secs
+      idleTimeout: 300000 # connection would be removed after 5 minutes
+
+solid:
+  oauth2:
+    resource:
+      url-patterns: /api/**
+
+
+---
+spring.config.activate.on-profile: db-production
+
+solid.jpa.tenant.enabled: true
+
+spring.jpa:
+  hibernate.ddl-auto: none
+  database: POSTGRESQL
+  database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+solid.jpa.tenant:
+  datasources:
+   # dms datasource-read/write
+   - name: "a1stream-dms-db-rw" 
+     identity-key: "a1stream-dms-db" 
+     default: true # Primary, default ds
+     driver-class-name: org.postgresql.Driver
+     url: ${DB_URL}
+     username: ${DB_USERNAME}
+     password: ${DB_PASSWORD}
+     pool:
+       maximumPoolSize: 40
+       minimumIdle: 2
+       schema: ${DB_SCHEMA}
+   # dms datasource-only read
+   - name: "a1stream-dms-db-or"
+     readonly: true
+     identity-key: "a1stream-dms-db" 
+     driverClassName: org.postgresql.Driver
+     url: ${DB_URL_OR}
+     username: ${DB_USERNAME}
+     password: ${DB_PASSWORD}
+     pool:
+       maximumPoolSize: 40
+       minimumIdle: 2
+       schema: ${DB_SCHEMA}
+   # mi-db datasource 
+   - name: "a1stream-mi-db" 
+     identity-key: "a1stream-mi-db" 
+     driver-class-name: org.postgresql.Driver
+     url: ${MIDB_URL}
+     username: ${MIDB_USERNAME}
+     password: ${MIDB_PASSWORD}
+     pool:
+       maximumPoolSize: 40
+       minimumIdle: 2
+       schema: ${MIDB_SCHEMA}
+
+#a1stream:
+#  datasource: 
+#   a1stream-db:
+#       jdbcUrl:  ${DB_URL}
+#       driverClassName: org.postgresql.Driver
+#       username: ${DB_USERNAME}
+#       password: ${DB_PASSWORD}
+#       schema: ${DB_SCHEMA}
+#   mi-db:
+#       jdbcUrl: ${MIDB_URL}
+#       driverClassName: org.postgresql.Driver
+#       username: ${MIDB_USERNAME}
+#       password: ${MIDB_PASSWORD}
+#       schema: ${MIDB_SCHEMA}
+---

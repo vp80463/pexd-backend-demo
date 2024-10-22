@@ -1,0 +1,14 @@
+plugins {
+  id 'com.ymsl.solid.build.java-sonarscan'
+}
+
+subprojects {
+  //The same "GV" for all subprojects
+  group   = pjGroupName
+  version = pjVersion
+  
+  ext {
+      pluginsVersion = '[1.0, 1.1)'
+      awsPlatFormVersion = '2.21.1'
+  }
+}

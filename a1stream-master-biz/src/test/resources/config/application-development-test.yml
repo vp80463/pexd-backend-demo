@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: blank
+
+---
+spring.config.activate.on-profile: psql-test
+
+spring.jpa:
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.temp.use_jdbc_metadata_defaults: false
+
+spring.datasource:
+    url: jdbc:postgresql://localhost:15432/to_do_app?currentSchema=test_schema
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+#    schema:
+#      - classpath*:db/init-ddl.sql
+#    data:
+#      - classpath*:db/init-data.sql
+    xa:
+        dataSourceClassName: org.postgresql.xa.PGXADataSource
+---
+spring.profiles: h2-test
+
+spring.jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+spring.datasource:
+    url: jdbc:h2:mem:demo_master;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    xa:
+        dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+#    schema:
+#    - classpath*:db/init-ddl-h2.sql
+#    data:
+#    - classpath*:db/init-data-h2.sql
+#    continue-on-error: false
+#    initialization-mode: embedded

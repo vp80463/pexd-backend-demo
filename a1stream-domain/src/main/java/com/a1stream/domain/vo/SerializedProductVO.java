@@ -1,0 +1,89 @@
+package com.a1stream.domain.vo;
+
+import java.math.BigDecimal;
+
+import com.a1stream.common.model.BaseVO;
+import com.ymsl.solid.base.util.BeanMapUtils;
+import com.ymsl.solid.base.util.IdUtils;
+
+import lombok.Getter;
+import lombok.Setter;
+
+
+
+@Setter
+@Getter
+public class SerializedProductVO extends BaseVO {
+
+    private static final long serialVersionUID = 1L;
+
+    private Long serializedProductId;
+
+    private String receivedDate;
+
+    private String manufacturingDate;
+
+    private Long productId;
+
+    private Long facilityId;
+
+    private Long locationInfoId;
+
+    private String serviceSiteId;
+
+    private String stuSiteId;
+
+    private String stuDate;
+
+    private BigDecimal stuPrice = BigDecimal.ZERO;
+
+    private String evFlag;
+
+    private String pdiFlag;
+
+    private String pdiStartTime;
+
+    private String pdiEndTime;
+
+    private String pdiFinishDate;
+
+    private String pdiPicNm;
+
+    private String qualityStatus;
+
+    private String stockStatus;
+
+    private String salesStatus;
+
+    private Long cmmSerializedProductId;
+
+    private String frameNo;
+
+    private String plateNo;
+
+    private String barCode;
+
+    private String engineNo;
+
+    private String fromDate;
+
+    private String toDate;
+
+    public static SerializedProductVO create() {
+        SerializedProductVO entity = new SerializedProductVO();
+        entity.setSerializedProductId(IdUtils.getSnowflakeIdWorker().nextId());
+
+        return entity;
+    }
+
+    public static SerializedProductVO copyFromCmm(CmmSerializedProductVO cmmMotor, String siteId) {
+
+        SerializedProductVO entity = BeanMapUtils.mapTo(cmmMotor, SerializedProductVO.class);
+
+        entity.setSerializedProductId(IdUtils.getSnowflakeIdWorker().nextId());
+        entity.setSiteId(siteId);
+        entity.setCmmSerializedProductId(cmmMotor.getSerializedProductId());
+
+        return entity;
+    }
+}

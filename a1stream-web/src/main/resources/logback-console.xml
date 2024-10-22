@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+
+  <logger name="org.springframework.transaction" level="INFO"/>
+  <logger name="org.springframework.orm.jpa" level="INFO"/>
+  <logger name="org.springframework.security" level="INFO"/>
+<!--  <logger name="org.springframework.security.web.FilterChainProxy" level="TRACE"/>-->
+  
+  <logger name="org.springframework.boot.autoconfigure" level="INFO"/>
+
+  <logger name="org.hibernate.jpa" level="INFO"/>  
+  <logger name="org.hibernate.jpa.internal.util" level="INFO"/>
+  
+  <logger name="org.hibernate.SQL" level="INFO"/>
+  <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO"/>
+
+  <logger name="com.ymsl.solid" level="INFO"/>
+  <logger name="com.ymsl.solid.web.trace.trace" level="INFO"/>
+  <logger name="org.springframework.boot.devtools" level="INFO"/>
+  
+  <!-- from base.xml / defaults.xml -->
+  <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+  <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+  <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+  <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) [%X{user}] %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %.-2048m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+  
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+  <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="CONSOLE"/>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="ASYNC" />
+  </root>
+
+</configuration>

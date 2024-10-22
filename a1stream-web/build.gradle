@@ -1,0 +1,60 @@
+plugins {
+  id 'com.ymsl.solid.build.framework-application'
+} 
+
+ext {
+    appMainClass = "com.a1stream.PjApplication"
+}
+
+dependencies {
+    
+	implementation (project(":a1stream-service-biz"))
+	implementation (project(":a1stream-master-biz"))
+
+    implementation "com.ymsl.solid:solid-web"
+    implementation "com.ymsl.solid:solid-context"
+    implementation "com.ymsl.solid:solid-apcheck"
+	implementation "com.ymsl.plugins:plugins-log-jpa:$pluginsVersion"
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    if (!project.hasProperty('profile') || project.property('profile') != 'production') {
+        implementation "com.ymsl.solid:solid-swagger"
+    } else {
+        implementation "io.swagger.core.v3:swagger-annotations-jakarta"
+    }
+    implementation "com.ymsl.solid:solid-websocket"
+
+    runtimeOnly "org.postgresql:postgresql"
+    runtimeOnly "com.h2database:h2"
+
+    //Embedded server: Undertow
+    runtimeOnly "org.springframework.boot:spring-boot-starter-undertow"
+    runtimeOnly "io.undertow.jastow:jastow"
+
+    //Only for development environment
+    compileOnly "org.springframework.boot:spring-boot-devtools"
+
+    implementation "jakarta.servlet:jakarta.servlet-api"
+
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+
+    //websocket
+//    implementation "org.springframework.boot:spring-boot-starter-websocket"
+//    implementation "org.springframework.boot:spring-boot-starter-web"
+//    implementation "org.springframework.boot:spring-boot-starter-activemq"
+//    implementation "org.springframework.boot:spring-boot-starter-test"
+
+    // flyway
+    //compile "org.flywaydb:flyway-core"
+
+    testImplementation "com.ymsl.solid:solid-test"
+    testImplementation "com.h2database:h2"
+    testImplementation "org.postgresql:postgresql"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
+}
+
+springBoot {
+	mainClass = appMainClass
+}

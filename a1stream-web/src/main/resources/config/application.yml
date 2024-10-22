@@ -1,0 +1,269 @@
+spring:
+  application:
+    name: a1stream
+  h2:
+    console:
+      enabled: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+# spring boot 2.7.+
+server.servlet.session.cookie.same-site: lax
+spring.mvc.pathmatch.matching-strategy: ant-path-matcher
+
+## Default jpa config
+spring.jpa:
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+           hbm2ddl.auto: none
+           jdbc.batch_size: 50
+      jadira:
+          usertype:
+              useJdbc42Apis: true
+
+solid:
+  report:
+    jxls:
+      baseLocation: reportTemplate/
+      defaultExtension: .xlsx
+    jasper:
+      baseLocation: jasperTemplate/
+  jpa:
+    audit-timezone: "+7"
+    
+## Server
+server:
+  servlet:
+    context-path: /a1stream/api
+    session:
+      cookie:
+        http-only: true
+        secure: true
+
+server.port: ${SERVER_PORT:8080}
+
+##plugins for log
+plugins.log.enable: true
+plugins.log.targets:
+    log-operation: true               # Enable monitoring and logging for methods annotated with @LogOperation (enabled by default)
+    api-operation: true               # Enable monitoring and logging for methods annotated with @Operation of swagger/openapi (enabled by default)
+    controller: false                 # Enable monitoring and logging for methods inside @Controller (disabled by default)
+    rest-controller: false
+
+# The following parameters only take effect when saving to a database
+plugins.log.err-msg-max-length: 2000               # Maximum length to truncate error messages (default 2000, excessively long content can impact database query performance). Set -1 for no limit.
+plugins.log.result-max-length: 2000                # Maximum length to truncate parameter results (default 2000, excessively long content can impact database query performance). Set -1 for no limit.
+plugins.log.request-param-max-length: 2000         # Maximum length to truncate parameter contents (default 2000, excessively long content can impact database query performance). Set -1 for no limit.
+plugins.log.request-param-keep-json: false         # Whether to keep the complete JSON format of parameters to avoid data corruption and inability to restore parsing due to truncation.
+
+#aws-region
+pluglins.aws.region: ${AWS_REGION}
+
+## Mvc
+spring.mvc.view:
+    prefix: /static-res/
+    suffix: .html
+
+spring.data.redis.repositories.enabled: false
+
+## Mvc i18n
+spring.messages:
+   basename: static/resources/messages/base_validation, static/resources/messages/base, static/resources/messages/i18nMessageResource
+   use-code-as-default-message: true #'label.xx' => display 'label.xx' if it's absent.
+
+logging:
+    config: classpath:logback-console.xml
+
+spring.flyway.enabled: false
+
+solid.login.record-login-event: true
+solid.login.token-base: true
+solid.skip-id-generate-when-not-null: true
+
+spring.profiles.group:
+  escort-dev:
+    - development
+    - dummy-auth
+    - psql
+    - redis
+    #- cognito
+    #- login-security
+    #- redis-dev
+    # - redis-aws
+    #- rabbitMq
+    - ifs
+    #- oauth2-sso-client
+    #- oauth2-server
+    #- oauth2-resource
+  dev:
+    - development
+    #- single-login
+    - psql
+    - redis
+    - cognito
+    #- redis-dev
+    # - redis-aws
+    #- rabbitMq
+    - ifs
+    - oauth2-sso-client
+    - login-security
+    #- oauth2-server
+    - oauth2-resource
+  production:
+    #- single-login
+    - db-production
+    - redis
+    - cognito
+    - oauth2-sso-client
+    - login-security
+    #- oauth2-server
+    - oauth2-resource
+    - ifs
+    
+
+---
+spring.config.activate.on-profile: psql
+
+solid.jpa.tenant.enabled: true
+
+spring.jpa:
+    hibernate.ddl-auto: none
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.temp.use_jdbc_metadata_defaults: false
+
+solid.jpa.tenant:
+  datasources:
+   - name: "a1stream-dms-db" 
+     identity-key: "a1stream-dms-db" 
+     default: true # Primary, default ds
+     driver-class-name: org.postgresql.Driver
+     url: ${DB_URL_DEV}
+     username: ${DB_USERNAME_DEV}
+     password: ${DB_PASSWORD_DEV}
+     pool:
+       maximumPoolSize: 40
+       minimumIdle: 2
+       schema: ${DB_SCHEMA_DEV}
+   - name: "a1stream-mi-db" 
+     identity-key: "a1stream-mi-db" 
+     driver-class-name: org.postgresql.Driver
+     url: ${MIDB_URL_DEV}
+     username: ${MIDB_USERNAME_DEV}
+     password: ${MIDB_PASSWORD_DEV}
+     pool:
+       maximumPoolSize: 40
+       minimumIdle: 2
+       schema: ${MIDB_SCHEMA_DEV}
+
+#a1stream:
+#  datasource: 
+#    a1stream-db:
+#       jdbcUrl: ${DB_URL_DEV}
+#       driverClassName: org.postgresql.Driver
+#       username: ${DB_USERNAME_DEV}
+#       password: ${DB_PASSWORD_DEV}
+#       schema: ${DB_SCHEMA_DEV}
+#    mi-db:
+#       jdbcUrl: ${MIDB_URL_DEV}
+#       driverClassName: org.postgresql.Driver
+#       username: ${MIDB_USERNAME_DEV}
+#       password: ${MIDB_PASSWORD_DEV}
+#       schema: ${MIDB_SCHEMA_DEV}
+---
+spring.config.activate.on-profile: redis
+
+spring.data.redis:
+  host: ${REDIS_HOST_DEV}
+  port: ${REDIS_PORT_DEV}
+  database: ${REDIS_DATABASE_DEV}
+  #password: ${REDIS_PASSWORD_DEV}
+
+#spring.data:
+#  redis:  
+#    ssl:
+#      enabled: true
+#    cluster:  
+#      nodes: 
+#        - ${REDIS_NODES}
+#    password: ${REDIS_PASSWORD}
+#    lettuce:  
+#      pool:  
+#        max-active: 10  
+#        max-idle: 5  
+#        min-idle: 2  
+#    timeout: 50000ms
+---
+spring.config.activate.on-profile: cognito
+
+aws:
+  cognito:
+    poolId: ${COGNITO_POOLID_DEV}
+    clientId: ${COGNITO_CLIENTID_DEV}
+    clientSecret: ${COGNITO_CLIENTSECRET_DEV}
+    authFlow: ${COGNITO_AUTHFLOW_DEV}
+
+spring.security:
+  oauth2:
+    client:
+      registration:
+        cognito:
+          clientId: ${COGNITO_CLIENTID_DEV}
+          clientSecret: ${COGNITO_CLIENTSECRET_DEV}
+          scope: openid
+          redirect-uri: ${COGNITO_REDIRECTURI_DEV}
+          clientName: ${COGNITO_CLIENTNAME_DEV}
+      provider:
+        cognito:
+          issuerUri: ${COGNITO_ISSUERURI_DEV}
+          user-name-attribute: ${COGNITO_USERNAMEATTR_DEV}
+    resourceserver:
+        jwt:
+          issuer-uri: ${COGNITO_ISSUERURI_DEV}
+          jwk-set-uri: ${COGNITO_JWKSETURI_DEV}
+---
+spring.config.activate.on-profile: rabbitMq
+
+#配置rabbitMq 服务器
+spring.rabbitmq: 
+    addresses: ${RABBITMQ_ADDR_DEV}
+    username: ${RABBITMQ_USERNAME_DEV}
+    password: ${RABBITMQ_PASSWORD_DEV}
+    #虚拟host 可以不设置,使用server默认host
+    virtual-host: ${RABBITMQ_VIRTUAL_HOST_DEV}
+    listener:
+      simple:
+        retry:
+          enabled: true #开启，默认关闭
+          max-attempts: 3 #重试次数
+          initial-interval: 6000 #间隔时间
+          max-interval: 6000
+        prefetch: 30
+    managerContenPath: ${RABBITMQ_MANAGERCONTENPATH_DEV}
+---
+spring.config.activate.on-profile: ifs
+ifs: 
+  producer:
+    #本地工程调用IFS的路径配置：ESCORT模式下不支持OAUTH2，所以使用publicEntrance的公开IFS路径推送消息给IFS
+    pushNotifyUrl: ${IFS_PUSHNOTIFYURL_DEV}
+    requestTokenUrl: ${IFS_REQUESTTOKENURL_DEV}
+    clientId: ${IFS_CLIENTID_DEV}
+    clientSecret: ${IFS_CLIENTSECRET_DEV}
+    grantType: ${IFS_GRANTTYPE_DEV}
+#  listen:
+#    a1streamQueue: ${IFS_A1STREAMQUEUE_DEV}
+  request:
+    url: ${IFS_REQUESTURL_DEV}
+---
+spring.config.activate.on-profile: dummy-auth
+
+solid.pj.login.dummy:
+  allow-origins: http://localhost:[*], http://escort.com:[*],http://10.191.5.112:[*]
+  username: dummy
+  siteId: "YT35"
+  locale: en

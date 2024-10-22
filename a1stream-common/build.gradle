@@ -1,0 +1,88 @@
+plugins {
+  id 'com.ymsl.solid.build.framework-library'
+}
+
+configurations {
+    developmentOnly
+}
+
+dependencies {
+    api "com.ymsl.solid:solid-jpa"
+    api "com.ymsl.solid:solid-redis"
+    api "com.ymsl.solid:solid-web"
+    api "com.ymsl.solid:solid-context"
+    api "com.ymsl.solid:solid-apcheck"
+    api "com.ymsl.solid:solid-oauth2-client"
+    api "com.ymsl.solid:solid-oauth2-resource"
+    api "com.ymsl.plugins:plugins-userauthorize:$pluginsVersion"
+    api "com.ymsl.plugins:plugins-i18n:$pluginsVersion"
+    //api "com.ymsl.solid:solid-plugins-userauthorize"
+
+    //aws dependencies
+    api platform("software.amazon.awssdk:bom:$awsPlatFormVersion")
+    api "software.amazon.awssdk:s3"
+    api "software.amazon.awssdk:sso"
+    api "software.amazon.awssdk:ssooidc"
+    api "software.amazon.awssdk:sqs"
+    api "software.amazon.awssdk:regions"
+    api "software.amazon.awssdk:cognitoidentityprovider"
+    api "software.amazon.awssdk:cognitoidentity"
+    api "software.amazon.awssdk:sts"
+        
+    //api "com.alibaba:fastjson:1.2.54"
+    api libs.fast.json
+    
+    //amqp dependency
+    api libs.amqp.dependency
+    api libs.amqp.test.dependency
+    api libs.kong.hq
+
+    //pdf
+    api libs.org.apache.pdfbox
+
+    //excel
+    api "com.ymsl.solid:solid-report-jxls"
+    api libs.alibaba.easy.excel
+    api("com.ymsl.solid:solid-report") {
+        exclude group: "xml-apis", module: "xml-apis"
+    }
+
+    //jsch
+    api libs.com.jcraft.jsch
+
+    //websocket
+    api "com.ymsl.solid:solid-websocket"
+
+    implementation libs.ws.jaxws.rt
+    implementation 'jakarta.xml.ws:jakarta.xml.ws-api'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api'
+    implementation 'com.sun.xml.bind:jaxb-impl'
+
+    // For single datasource
+    //No Jta use Hikari as the default connection pool.
+    api("com.zaxxer:HikariCP") {
+        exclude group: "org.slf4j", module: "slf4j-api"
+    }
+    api "jakarta.transaction:jakarta.transaction-api"
+
+    //For multiple datasources and jta
+    //use atomikos.
+    //implementation "com.atomikos:transactions-spring-boot3-starter:${versions.atomikos}"
+
+    // Testing dependencies
+    testImplementation "com.ymsl.solid:solid-test"
+    testImplementation "com.h2database:h2"
+    testImplementation "org.postgresql:postgresql"
+    //testCompile "org.flywaydb:flyway-core"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+task wsimport(type: JavaExec) {
+    doFirst {
+        file('build/classes/java/main').mkdirs()
+    }
+    main = 'com.sun.tools.ws.WsImport'
+    classpath = configurations.developmentOnly
+    args = ['-keep', '-s', 'src/main/java/com/a1stream/common/wsdl', '-d', 'build/classes/java/main',
+            'src/main/resources/wsdl/publishserviceNT.wsdl']
+}

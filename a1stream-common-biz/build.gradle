@@ -1,0 +1,14 @@
+plugins {
+  id 'com.ymsl.solid.build.framework-library'
+}
+
+dependencies {
+	api (project(":a1stream-domain"))
+		
+    // Testing dependencies
+    testImplementation "com.ymsl.solid:solid-test"
+    testImplementation "com.h2database:h2"
+    testImplementation "org.postgresql:postgresql"
+    //testCompile "org.flywaydb:flyway-core"
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
